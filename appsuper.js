@@ -9,6 +9,7 @@ const API_ELIMINAR_PROD = "https://api-tienda-losdevs.up.railway.app/api/product
 const IMG_PROD29        = "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/2551245_f.jpg";
 const IMG_PROD31        = "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/400/953/products/02-05-12-001-49a850031a93516aab16400227637476-240-0.jpg";
 const IMG_PRODxx        = "https://cotillonfantasia.com.ar/wp-content/uploads/2021/04/chocolinas-x250gr.jpeg";
+const IMG_PRODyy        = "https://groceryandco.com/cdn/shop/products/CAJA_2_PRODUCTO_14_FOTO_A_1200x1200.jpg?v=1614295436";
 
 let nombreProd          = "xxx";
 let precioProd          = 1000;
@@ -134,7 +135,15 @@ async function main () {
     imgProd = IMG_PRODxx;
 //    await agregarPoducto();
     /// Pide lista de productos nuevamente
-    obtenerInfoApi(API_PRODUCTOS);
+    // obtenerInfoApi(API_PRODUCTOS);
+
+// Modifica producto 41
+nombreProd = "Yerba Unión Suave Liviana 500gr"
+precioProd = 1499;
+imgProd = IMG_PRODyy;
+await modificarProducto(41);
+/// Pide lista de productos nuevamente
+obtenerInfoApi(API_PRODUCTOS);
 console.log(lastId);
     // Elimina el ultimo producto generado (lastId)
    // await eliminaProducto (lastId);
