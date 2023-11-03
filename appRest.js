@@ -89,38 +89,28 @@ async function apiDELETE() {
 async function apiPOST(texto) {
     let api = API_REST;
     console.log("Pido un POST: " + api);
-    const res = await fetch(api, {
-        method: "POST" 
+
+    const postData = {
+        info2: "Datos de prueba para POST" 
+    };
+    
+    let res = await fetch(api, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(postData) 
     });
+
     if (res.ok) {
-        // Imprime la respuesta completa en la consola
-        console.log("Respuesta completa:", res);
-
-        // Lee la respuesta como texto y la imprime en la consola
-        const responseText = await res.text();
-        console.log("Respuesta como texto:", responseText);
-
-        // Intenta analizar la respuesta como JSON y la imprime en la consola
-        try {
-            const responseData = await res.json();
-            console.log("Respuesta como JSON:", responseData);
-        } catch (error) {
-            console.error("Error al analizar la respuesta como JSON:", error);
-        }
+        const resData = await res.json();
+        const mensaje = resData.mensaje;
+        console.log(mensaje);
+        muestraResAccion("POST", mensaje);
     } else {
         console.error("Error en POST");
     }
 }
-
-    /*
-    if (res.ok) {
-        let resData = await res.json();
-        console.log(resData);
-        muestraResAccion("POST", resData);
-    } else {
-        console.error("Error en POST");
-    }*/
-
 
 
 async function apiPOST2(texto) {
