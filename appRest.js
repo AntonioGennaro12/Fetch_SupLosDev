@@ -4,18 +4,20 @@ const API_REST      = "https://ejemplo-api-rest-production.up.railway.app/mi-api
 const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app";
 
 
-async function generarTarjeta(productos) {    // muestra los productos
-    myBody.innerHTML += `
+async function generarTarjeta(amigos) {    // muestra amigos
+    const resultadoDiv = document.createElement("div");
+    resultadoDiv.innerHTML = `
         <div class="card" style="width: 8rem;">
-        <img src="${productos.imagen}" class="card-img-top" alt="...">
             <div class="card-body">
-            <h5 class="card-title">Nombre: ${productos.nombre}</h5>
-            <p class="card-text">Nro Id: ${productos.id}</p>
-            <p class="card-text">Precio: ${productos.precio}</p>
-            <a href="#" class="btn btn-primary">Modificar</a>
+            <p class="card-text">NroOrd: ${amigos.nro_orden}</p>
+            <p class="card-text">Nombre: ${amigos.amigo_nombre}</p>
+            <p class="card-text">Apelli: ${amigos.amigo_apellido}</p>
+            <p class="card-text">Telefo: ${amigos.amigo_telefono}</p>
+            <p class="card-text">Telefo: ${amigos.amigo_email}</p>
             </div>
         </div>
     `;
+    myBody.appendChild(resultadoDiv);
 }
 
 async function obtenerInfoApi(api) {
@@ -38,8 +40,11 @@ async function apiGet(dato) {
     console.log("pido GET con: " + dato, api);
     let res = await fetch(api);
     if (res.ok) {
-        const htmlResponse = await res.text();
-        muestraResAccion(dato, htmlResponse);
+        //const htmlResponse = await res.text();
+        //muestraResAccion(dato, htmlResponse);
+        const info = await res.json();
+        info.forEach(generarTarjeta); 
+
     } else {
         console.error("Error en GET");
     }
@@ -173,9 +178,9 @@ async function main () {
     await apiDELETE("/mi-api/");
     
     // Pruebas POST
-    await apiPOST("/mi-api/", "Juan Pablo", 
-                        "Martinez", 1149477788, 
-                        "juanpimartinez@gmail.com");
+    // await apiPOST("/mi-api", "Juan Pablo", 
+    //                    "Martinez", 1149477788, 
+    //                    "juanpimartinez@gmail.com");
 
     await apiPOST2("/mi-api/Antonio");
     // Pido de nuevo 
