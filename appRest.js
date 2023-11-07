@@ -1,7 +1,7 @@
 const myBody            = document.querySelector("body");
 ///
 const API_REST      = "https://ejemplo-api-rest-production.up.railway.app/mi-api";
-
+const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app";
 
 
 async function generarTarjeta(productos) {    // muestra los productos
@@ -24,17 +24,16 @@ async function obtenerInfoApi(api) {
     info.forEach(generarTarjeta); 
 }
 
-
 async function muestraResAccion(dato, res) {
     const resultadoDiv = document.createElement("div");
     resultadoDiv.innerHTML = ` 
-        <p>Pedido: ${dato}, Resultado: ${JSON.stringify(res)}</p>
+        <p>Pedido: ${dato}, Resultado: ${res}</p>
     `;
     myBody.appendChild(resultadoDiv);
 }
 
 async function apiGet(dato) {
-    let api = API_REST;
+    let api = API_REST_V2;
     api = `${api}${dato}`;
     console.log("pido GET con: " + dato, api);
     let res = await fetch(api);
@@ -46,8 +45,9 @@ async function apiGet(dato) {
     }
 }
 
-async function apiPUT() {
-    let api = API_REST;
+async function apiPUT(dato) {
+    let api = API_REST_V2;
+    api = `${api}${dato}`;
     console.log("pido PUT con: " + api);
     //let res = await fetch(api);
     let res = await fetch (api,{
@@ -68,8 +68,9 @@ async function apiPUT() {
 }
 
 
-async function apiDELETE() {
-    let api = API_REST;
+async function apiDELETE(dato) {
+    let api = API_REST_V2;
+    api = `${api}${dato}`;
     console.log("pido DELETE con: " + api);
     let res = await fetch (api,{
         method: 'DELETE'
@@ -86,25 +87,52 @@ async function apiDELETE() {
     }
 }
 
-async function apiPOST(texto) {
-    let api = API_REST;
-    console.log("Pido un POST: " + api);
+/***
+async function agregarPoducto() {
+    let api = API_AGREGAR_PROD;
+    console.log("entré a agregar: "+api);
+    res = await fetch (api,{
+        method:"POST",
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(
+            {
+                nombre: nombreProd,
+                precio: precioProd,
+                imagen: imgProd
+            }
+        )
+    });
+    res = await res.json();
+    console.log(res);
+    // Muestro el resultdo en la página
+    muestraResAccion(9999, res);
+}
+ */
 
-    const postData = {
-        info2: "Datos de prueba para POST" 
-    };
-    
+// Agrega elemento a base de amigos 
+async function apiPOST(deltaUrl, nom, ape, tel, mail) {
+    let api = API_REST_V2;
+    api = `${api}${deltaUrl}`;
+    console.log("Pido un POST: " + api);
     let res = await fetch(api, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json' 
         },
-        body: JSON.stringify(postData) 
+        body: JSON.stringify(
+            {
+                nombre: nom,
+                apellido: ape,
+                telefono: tel,
+                email: mail
+            }
+        ) 
     });
-
     if (res.ok) {
         const resData = await res.json();
-        const mensaje = resData.mensaje;
+        const mensaje = resData.dato;
         console.log(mensaje);
         muestraResAccion("POST", mensaje);
     } else {
@@ -114,8 +142,8 @@ async function apiPOST(texto) {
 
 
 async function apiPOST2(texto) {
-    let api = API_REST;
-    api = `${api}/${texto}`;
+    let api = API_REST_V2;
+    api = `${api}${texto}`;
     console.log("Pido un POST: "+api);
     res = await fetch (api,{
         method:"POST"       
@@ -134,17 +162,24 @@ async function main () {
     // Pruebas GET
     await apiGet("");
     await apiGet("/1");
+    await apiGet("/mi-api/");
+    await apiGet("/mi-api/1");
     await apiGet("?param=false&param2='otrovalor'");
 
     // Pruebas PUT
-    await apiPUT();
+    await apiPUT("/mi-api/");
 
     // Pruebas DELETE
-    await apiDELETE();
+    await apiDELETE("/mi-api/");
     
     // Pruebas POST
-    await apiPOST("");
-    await apiPOST2("Antonio");
+    await apiPOST("/mi-api/", "Juan Pablo", 
+                        "Martinez", 1149477788, 
+                        "juanpimartinez@gmail.com");
+
+    await apiPOST2("/mi-api/Antonio");
+    // Pido de nuevo 
+    await apiGet("");
     
 
 // FIN   
