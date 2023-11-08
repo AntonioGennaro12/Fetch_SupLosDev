@@ -1,19 +1,20 @@
 const myBody            = document.querySelector("body");
 ///
-const API_REST      = "https://ejemplo-api-rest-production.up.railway.app/mi-api";
-const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app";
-
+//const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app/mi-api/";
+const API_REST_V2   = "http://localhost:5000/mi-api/";
 
 async function generarTarjeta(amigos) {    // muestra amigos
+    myBody.style.display = "flex";
+    myBody.style.flexWrap = "wrap";
     const resultadoDiv = document.createElement("div");
     resultadoDiv.innerHTML = `
-        <div class="card" style="width: 8rem;">
+        <div class="card">
             <div class="card-body">
-            <p class="card-text">NroOrd: ${amigos.nro_orden}</p>
+            <p class="card-text">NroOrden: ${amigos.nro_orden}</p>
             <p class="card-text">Nombre: ${amigos.amigo_nombre}</p>
-            <p class="card-text">Apelli: ${amigos.amigo_apellido}</p>
-            <p class="card-text">Telefo: ${amigos.amigo_telefono}</p>
-            <p class="card-text">Telefo: ${amigos.amigo_email}</p>
+            <p class="card-text">Apellido: ${amigos.amigo_apellido}</p>
+            <p class="card-text">Telefono: ${amigos.amigo_telefono}</p>
+            <p class="card-text">email: ${amigos.amigo_email}</p>
             </div>
         </div>
     `;
@@ -27,21 +28,25 @@ async function obtenerInfoApi(api) {
 }
 
 async function muestraResAccion(dato, res) {
+    myBody.style.display = "grid";
     const resultadoDiv = document.createElement("div");
     resultadoDiv.innerHTML = ` 
-        <p>Pedido: ${dato}, Resultado: ${res}</p>
+        <div class="cont-res">
+            <p>Pedido: ${dato}</p>
+            <p>Resultado: ${res}</p>
+        </div>
     `;
     myBody.appendChild(resultadoDiv);
 }
 
-async function apiGet(dato) {
+async function apiGetItem(dato) {
     let api = API_REST_V2;
     api = `${api}${dato}`;
-    console.log("pido GET con: " + dato, api);
+    console.log("pido GET con URL : "+api);
     let res = await fetch(api);
     if (res.ok) {
-        //const htmlResponse = await res.text();
-        //muestraResAccion(dato, htmlResponse);
+        if (dato == "") { muestraResAccion("GET todos los elementos", "OK!");}
+        else {muestraResAccion("GET Elemento Nro: "+dato, "OK!");}
         const info = await res.json();
         info.forEach(generarTarjeta); 
 
@@ -50,32 +55,39 @@ async function apiGet(dato) {
     }
 }
 
-async function apiPUT(dato) {
+async function apiPUT(item, nom, ape, tel, mail) {     // modifica un Item
     let api = API_REST_V2;
-    api = `${api}${dato}`;
-    console.log("pido PUT con: " + api);
-    //let res = await fetch(api);
+    api = `${api}${item}`;
+    console.log("Pido PUT con: " + api);
     let res = await fetch (api,{
-        method: 'PUT'
+        method:"PUT",
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                nombre: nom,
+                apellido: ape,
+                telefono: tel,
+                email: mail
+            }
+        ) 
     }); 
     
     if (res.ok) {
         let resData = await res.json();
         let mensaje = resData.mensaje;
         console.log(mensaje);
-        // const htmlResponse = await res.text();
-        // muestraResAccion("PUT", htmlResponse);
-        muestraResAccion("PUT", mensaje);
+        muestraResAccion("PUT Elemento:"+item, mensaje);
     
     } else {
         console.error("Error en PUT");
     }
 }
 
-
-async function apiDELETE(dato) {
+async function apiDELETE(item) {
     let api = API_REST_V2;
-    api = `${api}${dato}`;
+    api = `${api}${item}`;
     console.log("pido DELETE con: " + api);
     let res = await fetch (api,{
         method: 'DELETE'
@@ -85,41 +97,18 @@ async function apiDELETE(dato) {
         let resData = await res.json();
         let mensaje = resData.mensaje;
         console.log(mensaje);
-        muestraResAccion("DELETE", mensaje);
+        muestraResAccion("DELETE Elemento: "+item, mensaje);
     
     } else {
+        muestraResAccion("DELETE Elemento: "+item, "ERRRROR!!!");
         console.error("Error en DELETE");
     }
 }
 
-/***
-async function agregarPoducto() {
-    let api = API_AGREGAR_PROD;
-    console.log("entré a agregar: "+api);
-    res = await fetch (api,{
-        method:"POST",
-        headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(
-            {
-                nombre: nombreProd,
-                precio: precioProd,
-                imagen: imgProd
-            }
-        )
-    });
-    res = await res.json();
-    console.log(res);
-    // Muestro el resultdo en la página
-    muestraResAccion(9999, res);
-}
- */
-
 // Agrega elemento a base de amigos 
-async function apiPOST(deltaUrl, nom, ape, tel, mail) {
+async function apiPOST(xxx, nom, ape, tel, mail) {
     let api = API_REST_V2;
-    api = `${api}${deltaUrl}`;
+    api = `${api}${xxx}`;
     console.log("Pido un POST: " + api);
     let res = await fetch(api, {
         method: "POST",
@@ -145,47 +134,30 @@ async function apiPOST(deltaUrl, nom, ape, tel, mail) {
     }
 }
 
-
-async function apiPOST2(texto) {
-    let api = API_REST_V2;
-    api = `${api}${texto}`;
-    console.log("Pido un POST: "+api);
-    res = await fetch (api,{
-        method:"POST"       
-        });
-    if (res.ok) {
-        let htmlResponse = await res.text();
-        muestraResAccion("POST", htmlResponse);
-        console.log(htmlResponse);
-    } else {
-        console.error("Error en POST");
-    }
-}
-
 /// INICIO
 async function main () {
     // Pruebas GET
-    await apiGet("");
-    await apiGet("/1");
-    await apiGet("/mi-api/");
-    await apiGet("/mi-api/1");
-    await apiGet("?param=false&param2='otrovalor'");
+    await apiGetItem("");   // trae todo sin parámetros
+    await apiGetItem("2");  // trae un elemento de la tabla
+    await apiGetItem("7");  // trae un elemento de la tabla
 
-    // Pruebas PUT
-    await apiPUT("/mi-api/");
-
-    // Pruebas DELETE
-    await apiDELETE("/mi-api/");
-    
     // Pruebas POST
-    // await apiPOST("/mi-api", "Juan Pablo", 
-    //                    "Martinez", 1149477788, 
-    //                    "juanpimartinez@gmail.com");
-
-    await apiPOST2("/mi-api/Antonio");
+    /** 
+    await apiPOST("", "Juan Pablo", 
+                        "Martinez", 1149477788, 
+                       "juanpimartinez@gmail.com");
+    await apiGetItem("");
+    */
+    // Pruebas PUT
+    await apiPUT("11", "Pablo Juan", 
+                        "Martinez", 1149477788,
+                        "juanpimartinez@gmail.com");       // modifica un elemento 
+    await apiGetItem("11");
+    // Pruebas DELETE
+    //await apiDELETE("10");
     // Pido de nuevo 
-    await apiGet("");
-    
+    await apiGetItem("");
+   
 
 // FIN   
 }

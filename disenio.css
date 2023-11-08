@@ -1,3 +1,36 @@
 body {
     background: linear-gradient(#afdee764, #6c86b5);
+    display: grid;
+}
+
+.titulo {
+    width: 30rem;
+    text-align: center;
+    font-family: sans-serif;
+    border: solid 2px darkblue;
+    border-radius: 3%;
+}
+
+.card {
+    width: 15rem;
+    display: flex; 
+    flex-wrap: wrap;
+    background-color: lightgreen;
+    border: solid 2px darkgreen;
+    border-radius: 3%;
+}
+
+.card-text {
+    flex: 1;
+    color: darkblue;
+    font-family: 'Lucida Sans';
+} 
+
+.cont-res {
+    display: grid;
+    border: solid 2px blue;
+    border-radius: 3%;
+    width: 15rem;
+    height: 100%;
+    background-color: lightyellow;
 }
