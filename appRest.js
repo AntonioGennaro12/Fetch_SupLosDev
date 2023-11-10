@@ -1,7 +1,7 @@
 const myBody            = document.querySelector("body");
 //
-//const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app/amigos/";
-const API_REST_V2   = "http://localhost:5000/amigos/";
+const API_REST_V2   = "https://ejemplo-api-restv2-production-4304.up.railway.app/amigos/";
+//const API_REST_V2   = "http://localhost:5000/amigos/";
 
 async function generarTarjeta(misAmigos) {    // muestra amigos
     myBody.style.display = "flex";
@@ -43,7 +43,7 @@ async function apiGetItem(dato) {
     let api = API_REST_V2;
     api = `${api}${dato}`;
     console.log("pido GET con URL : "+api);
-    let res = await fetch(api);
+    let res = await fetch (api); 
     if (res.ok) {
         if (dato == "") { muestraResAccion("GET todos los elementos", "OK!");}
         else {muestraResAccion("GET Elemento Nro: "+dato, "OK!");}
@@ -138,27 +138,29 @@ async function apiPOST(xxx, nom, ape, tel, mail) {
 async function main () {
     // Pruebas GET
     await apiGetItem("");   // trae todo sin parámetros
+    await apiGetItem("1");  // trae un elemento de la tabla
     await apiGetItem("2");  // trae un elemento de la tabla
-    await apiGetItem("7");  // trae un elemento de la tabla
 
     // Pruebas POST
-    /** 
+    /*
     await apiPOST("", "Juan Pablo", 
                         "Martinez", 1149477788, 
                        "juanpimartinez@gmail.com");
     await apiGetItem("");
     */
     // Pruebas PUT
-    
-    await apiPUT("11", "Juan Pedro", 
-                        "Martinez", 1149477788,
-                        "juanpimartinez@gmail.com");       // modifica un elemento 
-    await apiGetItem("11");
-    
+    /*
+    await apiPUT("2", "Alejandro", 
+                        "Fernández", 1153026699,
+                        "alefernandez@gmail.com");       // modifica un elemento 
+    await apiGetItem("2");
+    */
+           
+
     // Pruebas DELETE
     //await apiDELETE("10");
     // Pido de nuevo 
-    //await apiGetItem("");
+    await apiGetItem("");
    
 
 // FIN   
