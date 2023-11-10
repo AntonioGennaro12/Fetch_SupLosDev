@@ -51,9 +51,42 @@ async function apiGetItem(dato) {
         info.forEach(generarTarjeta); 
 
     } else {
+        muestraResAccion("GET Elemento Nro: "+dato, "ERRROOORRR!");
         console.error("Error en GET");
     }
 }
+
+// Agrega elemento a base de amigos 
+async function apiPOST(xxx, nom, ape, tel, mail) {
+    let api = API_REST_V2;
+    api = `${api}${xxx}`;
+    console.log("Pido un POST: " + api);
+    let res = await fetch(api, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(
+            {
+                nombre: nom,
+                apellido: ape,
+                telefono: tel,
+                email: mail
+            }
+        ) 
+    });
+    if (res.ok) {
+        const resData = await res.json();
+        const mensaje = resData.mensaje;
+        console.log(mensaje);
+        muestraResAccion("POST", mensaje);
+    } else {
+        muestraResAccion("POST", "SE PRODUJO UN ERROR!!!");
+        console.error("Error en POST");
+    }
+}
+
+
 
 async function apiPUT(item, nom, ape, tel, mail) {     // modifica un Item
     let api = API_REST_V2;
@@ -81,6 +114,7 @@ async function apiPUT(item, nom, ape, tel, mail) {     // modifica un Item
         muestraResAccion("PUT Elemento:"+item, mensaje);
     
     } else {
+        muestraResAccion("PUT Elemento: "+item, "ERRRROR!!!");
         console.error("Error en PUT");
     }
 }
@@ -105,35 +139,6 @@ async function apiDELETE(item) {
     }
 }
 
-// Agrega elemento a base de amigos 
-async function apiPOST(xxx, nom, ape, tel, mail) {
-    let api = API_REST_V2;
-    api = `${api}${xxx}`;
-    console.log("Pido un POST: " + api);
-    let res = await fetch(api, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json' 
-        },
-        body: JSON.stringify(
-            {
-                nombre: nom,
-                apellido: ape,
-                telefono: tel,
-                email: mail
-            }
-        ) 
-    });
-    if (res.ok) {
-        const resData = await res.json();
-        const mensaje = resData.dato;
-        console.log(mensaje);
-        muestraResAccion("POST", mensaje);
-    } else {
-        console.error("Error en POST");
-    }
-}
-
 /// INICIO
 async function main () {
     // Pruebas GET
@@ -142,27 +147,26 @@ async function main () {
     await apiGetItem("2");  // trae un elemento de la tabla
 
     // Pruebas POST
-    /*
-    await apiPOST("", "Juan Pablo", 
-                        "Martinez", 1149477788, 
-                       "juanpimartinez@gmail.com");
+    /** 
+    await apiPOST("", "José", 
+            "Prueba2", 1100000000, 
+            "jjjjjpppp@gmail.com");
     await apiGetItem("");
     */
     // Pruebas PUT
-    /*
-    await apiPUT("2", "Alejandro", 
-                        "Fernández", 1153026699,
-                        "alefernandez@gmail.com");       // modifica un elemento 
-    await apiGetItem("2");
+    /** 
+    await apiPUT("7", "Lionel Andrés",  
+                        "Messi Cuccittini", 0019541234567,
+                        "liomessi@gmail.com");       // modifica un elemento 
+    await apiGetItem("7");
     */
            
-
     // Pruebas DELETE
-    //await apiDELETE("10");
+    //await apiDELETE("6");
     // Pido de nuevo 
-    await apiGetItem("");
-   
-
+    await apiGetItem("3");
+    await apiGetItem("5");
+    await apiGetItem("7");
 // FIN   
 }
 
