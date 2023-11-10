@@ -160,9 +160,9 @@ async function main () {
                         "liomessi@gmail.com");       // modifica un elemento 
     await apiGetItem("7");
     */
-           
+     //      
     // Pruebas DELETE
-    //await apiDELETE("6");
+    //await apiDELETE("6"); 
     // Pido de nuevo 
     await apiGetItem("3");
     await apiGetItem("5");
