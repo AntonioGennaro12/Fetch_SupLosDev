@@ -1,20 +1,20 @@
 const myBody            = document.querySelector("body");
-///
-//const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app/mi-api/";
-const API_REST_V2   = "http://localhost:5000/mi-api/";
+//
+//const API_REST_V2   = "https://ejemplo-api-restv2-production.up.railway.app/amigos/";
+const API_REST_V2   = "http://localhost:5000/amigos/";
 
-async function generarTarjeta(amigos) {    // muestra amigos
+async function generarTarjeta(misAmigos) {    // muestra amigos
     myBody.style.display = "flex";
     myBody.style.flexWrap = "wrap";
     const resultadoDiv = document.createElement("div");
     resultadoDiv.innerHTML = `
         <div class="card">
             <div class="card-body">
-            <p class="card-text">NroOrden: ${amigos.nro_orden}</p>
-            <p class="card-text">Nombre: ${amigos.amigo_nombre}</p>
-            <p class="card-text">Apellido: ${amigos.amigo_apellido}</p>
-            <p class="card-text">Telefono: ${amigos.amigo_telefono}</p>
-            <p class="card-text">email: ${amigos.amigo_email}</p>
+            <p class="card-text">NroOrden: ${misAmigos.nro_orden}</p>
+            <p class="card-text">Nombre: ${misAmigos.amigo_nombre}</p>
+            <p class="card-text">Apellido: ${misAmigos.amigo_apellido}</p>
+            <p class="card-text">Telefono: ${misAmigos.amigo_telefono}</p>
+            <p class="card-text">email: ${misAmigos.amigo_email}</p>
             </div>
         </div>
     `;
@@ -149,14 +149,16 @@ async function main () {
     await apiGetItem("");
     */
     // Pruebas PUT
-    await apiPUT("11", "Pablo Juan", 
+    
+    await apiPUT("11", "Juan Pedro", 
                         "Martinez", 1149477788,
                         "juanpimartinez@gmail.com");       // modifica un elemento 
     await apiGetItem("11");
+    
     // Pruebas DELETE
     //await apiDELETE("10");
     // Pido de nuevo 
-    await apiGetItem("");
+    //await apiGetItem("");
    
 
 // FIN   
