@@ -42,7 +42,7 @@ async function muestraResAccion(dato, res) {
 async function apiGetItem(dato) {
     let api = API_REST_V2;
     api = `${api}${dato}`;
-    console.log("pido GET("+dato+") con URL : "+api);
+    console.log("pido new GET("+dato+") con URL : "+api);
     let res = await fetch (api); 
     if (res.ok) {
         if (dato == "") { muestraResAccion("GET todos los elementos", "OK!");}
