@@ -1,7 +1,7 @@
 const myBody            = document.querySelector("body");
 //
 const API_REST_V2   = "https://ejemplo-api-restv2-production-4304.up.railway.app/amigos/";
-//const API_REST_V2   = "http://localhost:5000/amigos/";
+// const API_REST_V2   = "http://localhost:5000/amigos/";
 
 async function generarTarjeta(misAmigos) {    // muestra amigos
     myBody.style.display = "flex";
@@ -28,7 +28,7 @@ async function obtenerInfoApi(api) {
 }
 
 async function muestraResAccion(dato, res) {
-    myBody.style.display = "grid";
+    //myBody.style.display = "grid";
     const resultadoDiv = document.createElement("div");
     resultadoDiv.innerHTML = ` 
         <div class="cont-res">
