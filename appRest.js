@@ -51,7 +51,8 @@ async function apiGetItem(dato) {
         info.forEach(generarTarjeta); 
 
     } else {
-        muestraResAccion("GET Elemento Nro: "+dato, "ERRROOORRR!");
+        console.log(res.error);
+        muestraResAccion("GET Elemento Nro: "+dato, "ERRROOORRR!"+res.error);
         console.error("Error en GET");
     }
 }
